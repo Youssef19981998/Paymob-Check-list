@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paymob — Merchant Onboarding Checklist</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0057FF;
+    --blue-dark: #0040CC;
+    --blue-deeper: #002E99;
+    --blue-light: #E6EEFF;
+    --blue-mid: #BBCFFF;
+    --white: #ffffff;
+    --gray-50: #F7F9FF;
+    --gray-100: #EEF2FF;
+    --gray-200: #DDE6FF;
+    --border: #D0DCFF;
+    --text-main: #0A1A3C;
+    --text-muted: #4A5F8A;
+    --text-light: #7A90B8;
+    --radius: 12px;
+    --radius-sm: 7px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--gray-50);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--blue);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    right: 80px; top: 30px;
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 26px 32px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .logo-paymob { height: 46px; width: 46px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+  .header-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.25); flex-shrink: 0; }
+  .header-titles { display: flex; flex-direction: column; gap: 3px; }
+  .header-tag { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .header-title { font-size: 21px; font-weight: 700; color: var(--white); letter-spacing: -.01em; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .header-date { font-size: 12px; color: rgba(255,255,255,0.55); }
+  .progress-pill {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  /* STATS BAR */
+  .stats-bar { background: var(--blue-dark); border-bottom: 1px solid var(--blue-deeper); }
+  .stats-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 11px 32px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+  .stat { display: flex; flex-direction: column; gap: 1px; }
+  .stat-num { font-size: 18px; font-weight: 700; color: var(--white); }
+  .stat-label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: .06em; }
+  .stat-div { width: 1px; height: 30px; background: rgba(255,255,255,0.15); }
+  .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--white); border-radius: 3px; transition: width .35s ease; }
+
+  /* MAIN */
+  main { max-width: 900px; margin: 0 auto; padding: 24px 32px 0; }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .ctrl-group { display: flex; gap: 8px; align-items: center; }
+
+  .btn {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: var(--radius-sm);
+    padding: 7px 16px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text-muted);
+    transition: background .15s;
+  }
+  .btn:hover { background: var(--gray-100); }
+  .btn-primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .save-hint { font-size: 11px; color: var(--text-light); }
+  #save-status { font-size: 12px; color: #16a34a; font-weight: 500; opacity: 0; transition: opacity .4s; }
+
+  /* SECTION */
+  .section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--border);
+  }
+  .section-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+  .section-title-input {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+    background: none;
+    border: none;
+    outline: none;
+    cursor: text;
+    font-family: inherit;
+  }
+  .section-title-input:focus { background: var(--white); border-radius: 4px; padding: 2px 6px; }
+  .section-count { font-size: 11px; color: var(--text-light); background: var(--gray-200); padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+  .del-sec-btn { background: none; border: none; color: var(--text-light); font-size: 18px; cursor: pointer; line-height: 1; padding: 0 2px; }
+  .del-sec-btn:hover { color: #e53e3e; }
+
+  /* ITEM */
+  .item {
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .item:last-of-type { border-bottom: none; }
+
+  .item-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px 8px;
+    transition: background .1s;
+    cursor: pointer;
+  }
+  .item-top:hover { background: var(--gray-50); }
+  .item.done .item-top { opacity: .5; }
+  .item.done .item-text-input { text-decoration: line-through; }
+
+  .checkbox {
+    width: 17px; height: 17px;
+    border: 1.5px solid var(--blue-mid);
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--white);
+    transition: background .15s, border-color .15s;
+  }
+  .checkbox.checked { background: var(--blue); border-color: var(--blue); }
+  .checkmark { display: none; }
+  .checkbox.checked .checkmark { display: block; }
+
+  .item-text-input {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-main);
+    background: none;
+    border: none;
+    outline: none;
+    cursor: text;
+    font-family: inherit;
+    line-height: 1.45;
+  }
+  .item-text-input:focus { background: var(--gray-100); border-radius: 4px; padding: 2px 6px; }
+
+  .expand-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text-light);
+    font-size: 11px;
+    cursor: pointer;
+    padding: 2px 7px;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: background .12s, color .12s;
+  }
+  .expand-btn:hover { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
+  .expand-btn.open { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
+
+  .del-item-btn {
+    background: none; border: none; color: var(--text-light);
+    font-size: 15px; cursor: pointer; opacity: 0; transition: opacity .1s;
+    padding: 0 2px; flex-shrink: 0;
+  }
+  .item-top:hover .del-item-btn { opacity: 1; }
+  .del-item-btn:hover { color: #e53e3e; }
+
+  /* ANSWER BOX */
+  .answer-wrap {
+    display: none;
+    padding: 0 16px 12px 43px;
+    background: var(--gray-50);
+    border-top: 1px solid var(--gray-100);
+  }
+  .answer-wrap.open { display: block; }
+  .answer-label { font-size: 11px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; padding-top: 10px; }
+  .answer-textarea {
+    width: 100%;
+    min-height: 64px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-main);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    resize: vertical;
+    outline: none;
+    line-height: 1.5;
+    transition: border-color .15s;
+  }
+  .answer-textarea:focus { border-color: var(--blue); }
+  .answer-textarea::placeholder { color: var(--text-light); }
+
+  /* ADD ITEM ROW */
+  .add-item-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    border-top: 1px dashed var(--border);
+    background: var(--gray-50);
+  }
+  .add-item-row input {
+    flex: 1; font-size: 13px; color: var(--text-muted);
+    background: none; border: none; outline: none; font-family: inherit;
+  }
+  .add-item-row input::placeholder { color: var(--text-light); }
+  .add-icon { color: var(--blue-mid); font-size: 16px; }
+
+  /* ADD SECTION */
+  .add-sec-btn {
+    width: 100%; padding: 10px 16px;
+    background: none;
+    border: 1px dashed var(--blue-mid);
+    border-radius: var(--radius);
+    font-size: 13px; font-weight: 500;
+    color: var(--blue); cursor: pointer;
+    text-align: left; font-family: inherit;
+    transition: background .15s;
+    margin-top: 4px;
+  }
+  .add-sec-btn:hover { background: var(--blue-light); }
+
+  /* FOOTER */
+  footer {
+    max-width: 900px;
+    margin: 24px auto 0;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 8px; }
+  .footer-logo { height: 22px; width: 22px; border-radius: 5px; object-fit: cover; }
+  .footer-text { font-size: 12px; color: var(--text-light); }
+  .footer-label { font-size: 11px; color: var(--text-light); background: var(--gray-100); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <img class="logo-paymob" src="data:image/jpeg;base64,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" alt="Paymob" />
+      <div class="header-divider"></div>
+      <div class="header-titles">
+        <span class="header-tag">Integration Consulting</span>
+        <span class="header-title">Merchant Onboarding Checklist</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="header-date" id="hdate"></span>
+      <span class="progress-pill" id="hprog">0 / 0 done</span>
+    </div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><span class="stat-num" id="s-done">0</span><span class="stat-label">Covered</span></div>
+    <div class="stat-div"></div>
+    <div class="stat"><span class="stat-num" id="s-left">0</span><span class="stat-label">Remaining</span></div>
+    <div class="stat-div"></div>
+    <div class="stat"><span class="stat-num" id="s-pct">0%</span><span class="stat-label">Complete</span></div>
+    <div class="stat-div"></div>
+    <div class="progress-track"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<main>
+  <div class="controls">
+    <div class="ctrl-group">
+      <button class="btn btn-primary" onclick="saveAll()">Save answers</button>
+      <span id="save-status">Saved!</span>
+    </div>
+    <div class="ctrl-group">
+      <button class="btn" onclick="expandAll()">Expand all</button>
+      <button class="btn" onclick="collapseAll()">Collapse all</button>
+      <button class="btn" onclick="resetAll()">Uncheck all</button>
+    </div>
+  </div>
+  <div id="checklist"></div>
+  <button class="add-sec-btn" onclick="addSection()">+ Add section</button>
+</main>
+
+<footer>
+  <div class="footer-brand">
+    <img class="footer-logo" src="data:image/jpeg;base64,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" alt="Paymob" />
+    <span class="footer-text">Paymob Integration Consulting — Internal Use</span>
+  </div>
+  <span class="footer-label">v1.1</span>
+</footer>
+
+<script>
+const KEY = 'paymob_cl_v2';
+let sections = [
+  {title:"Business understanding", items:[
+    {t:"What do they do and how do they make money?", done:false, answer:""},
+    {t:"Who am I speaking with and what is their role?", done:false, answer:""},
+    {t:"Business type — e-commerce, SaaS, restaurant, marketplace?", done:false, answer:""},
+    {t:"Have they integrated a payment gateway before?", done:false, answer:""},
+  ]},
+  {title:"Goals & timeline", items:[
+    {t:"What specific outcome are they trying to achieve?", done:false, answer:""},
+    {t:"Is there a hard go-live date? What is driving it?", done:false, answer:""},
+    {t:"How many developers are assigned to this?", done:false, answer:""},
+    {t:"Any upcoming blockers — holidays, freezes, other projects?", done:false, answer:""},
+  ]},
+  {title:"Technical setup", items:[
+    {t:"What language, framework, or platform are they using?", done:false, answer:""},
+    {t:"Website, mobile app, or both?", done:false, answer:""},
+    {t:"Any existing PSP or payment system in place?", done:false, answer:""},
+    {t:"Do they have a test / staging environment?", done:false, answer:""},
+  ]},
+  {title:"Payment flows", items:[
+    {t:"Which payment methods must work at launch?", done:false, answer:""},
+    {t:"Which currencies and countries are in scope?", done:false, answer:""},
+    {t:"Expected monthly volume and peak load?", done:false, answer:""},
+    {t:"Any recurring billing, refunds, or split payments needed?", done:false, answer:""},
+  ]},
+  {title:"Risk & operations", items:[
+    {t:"Who owns fraud and compliance decisions on their side?", done:false, answer:""},
+    {t:"Fallback plan if the payment system goes down?", done:false, answer:""},
+    {t:"Who maintains the integration after go-live?", done:false, answer:""},
+    {t:"Who has final sign-off authority?", done:false, answer:""},
+  ]}
+];
+
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(sections)); } catch(e) {}
+}
+function load() {
+  try { const d = localStorage.getItem(KEY); if(d) sections = JSON.parse(d); } catch(e) {}
+}
+load();
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function updateStats() {
+  let done = 0, total = 0;
+  sections.forEach(s => { total += s.items.length; done += s.items.filter(i => i.done).length; });
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-left').textContent = total - done;
+  document.getElementById('s-pct').textContent = pct + '%';
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('hprog').textContent = done + ' / ' + total + ' done';
+}
+
+function render() {
+  const cl = document.getElementById('checklist');
+  cl.innerHTML = '';
+  sections.forEach((sec, si) => {
+    const doneCt = sec.items.filter(i => i.done).length;
+    const div = document.createElement('div');
+    div.className = 'section';
+    let itemsHtml = sec.items.map((item, ii) => {
+      const uid = 'a-' + si + '-' + ii;
+      return '<div class="item' + (item.done ? ' done' : '') + '" id="item-' + si + '-' + ii + '">' +
+        '<div class="item-top">' +
+          '<div class="checkbox' + (item.done ? ' checked' : '') + '" onclick="toggle(' + si + ',' + ii + ')">' +
+            '<svg class="checkmark" width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</div>' +
+          '<input class="item-text-input" value="' + esc(item.t) + '" onchange="sections[' + si + '].items[' + ii + '].t=this.value;save()" />' +
+          '<button class="expand-btn" id="btn-' + uid + '" onclick="toggleAnswer(\'' + uid + '\')">' +
+            (item.answer ? 'View answer' : 'Add answer') +
+          '</button>' +
+          '<button class="del-item-btn" onclick="delItem(' + si + ',' + ii + ')">×</button>' +
+        '</div>' +
+        '<div class="answer-wrap' + (item.answer ? ' open' : '') + '" id="' + uid + '">' +
+          '<div class="answer-label">Answer / Notes</div>' +
+          '<textarea class="answer-textarea" placeholder="Type your answer here..." onchange="sections[' + si + '].items[' + ii + '].answer=this.value;save();updateBtnLabel(\'' + uid + '\',this.value)">' + esc(item.answer) + '</textarea>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    div.innerHTML =
+      '<div class="section-head">' +
+        '<div class="section-dot"></div>' +
+        '<input class="section-title-input" value="' + esc(sec.title) + '" onchange="sections[' + si + '].title=this.value;save()" />' +
+        '<span class="section-count">' + doneCt + ' / ' + sec.items.length + '</span>' +
+        '<button class="del-sec-btn" onclick="delSection(' + si + ')">×</button>' +
+      '</div>' +
+      itemsHtml +
+      '<div class="add-item-row">' +
+        '<span class="add-icon">+</span>' +
+        '<input placeholder="Add item and press Enter..." onkeydown="if(event.key===\'Enter\'&&this.value.trim()){addItem(' + si + ',this.value.trim());this.value=\'\'}" />' +
+      '</div>';
+    cl.appendChild(div);
+  });
+  updateStats();
+}
+
+function toggleAnswer(uid) {
+  const wrap = document.getElementById(uid);
+  const btn = document.getElementById('btn-' + uid);
+  const isOpen = wrap.classList.contains('open');
+  wrap.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  const ta = wrap.querySelector('textarea');
+  if (!isOpen) { btn.textContent = ta.value ? 'View answer' : 'Add answer'; }
+}
+
+function updateBtnLabel(uid, val) {
+  const btn = document.getElementById('btn-' + uid);
+  if (btn) btn.textContent = val ? 'View answer' : 'Add answer';
+}
+
+function expandAll() {
+  document.querySelectorAll('.answer-wrap').forEach(w => w.classList.add('open'));
+  document.querySelectorAll('.expand-btn').forEach(b => b.classList.add('open'));
+}
+function collapseAll() {
+  document.querySelectorAll('.answer-wrap').forEach(w => w.classList.remove('open'));
+  document.querySelectorAll('.expand-btn').forEach(b => b.classList.remove('open'));
+}
+
+function toggle(si, ii) {
+  sections[si].items[ii].done = !sections[si].items[ii].done;
+  save(); render();
+}
+function delItem(si, ii) {
+  sections[si].items.splice(ii, 1); save(); render();
+}
+function delSection(si) {
+  if (confirm('Remove this section?')) { sections.splice(si, 1); save(); render(); }
+}
+function addItem(si, t) {
+  sections[si].items.push({t, done:false, answer:''}); save(); render();
+}
+function addSection() {
+  sections.push({title:'New section', items:[]}); save(); render();
+}
+function resetAll() {
+  sections.forEach(s => s.items.forEach(i => i.done = false)); save(); render();
+}
+
+function saveAll() {
+  document.querySelectorAll('.answer-textarea').forEach(ta => {
+    const id = ta.closest('.answer-wrap').id;
+    const parts = id.split('-');
+    const si = parseInt(parts[1]), ii = parseInt(parts[2]);
+    if (sections[si] && sections[si].items[ii]) {
+      sections[si].items[ii].answer = ta.value;
+    }
+  });
+  save();
+  const el = document.getElementById('save-status');
+  el.style.opacity = '1';
+  setTimeout(() => { el.style.opacity = '0'; }, 2500);
+}
+
+document.getElementById('hdate').textContent = new Date().toLocaleDateString('en-GB', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+render();
+</script>
+</body>
+</html>
