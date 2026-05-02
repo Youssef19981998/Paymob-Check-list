@@ -5,315 +5,159 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paymob — Merchant Onboarding Checklist</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --blue: #0057FF;
-    --blue-dark: #0040CC;
-    --blue-deeper: #002E99;
-    --blue-light: #E6EEFF;
-    --blue-mid: #BBCFFF;
-    --white: #ffffff;
-    --gray-50: #F7F9FF;
-    --gray-100: #EEF2FF;
-    --gray-200: #DDE6FF;
-    --border: #D0DCFF;
-    --text-main: #0A1A3C;
-    --text-muted: #4A5F8A;
-    --text-light: #7A90B8;
-    --radius: 12px;
-    --radius-sm: 7px;
-  }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: var(--gray-50);
-    color: var(--text-main);
-    min-height: 100vh;
-    padding-bottom: 4rem;
-  }
-
-  /* HEADER */
-  header {
-    background: var(--blue);
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '';
-    position: absolute;
-    right: -60px; top: -60px;
-    width: 220px; height: 220px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-  }
-  header::after {
-    content: '';
-    position: absolute;
-    right: 80px; top: 30px;
-    width: 110px; height: 110px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-  }
-  .header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 26px 32px 22px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    position: relative;
-    z-index: 2;
-  }
-  .header-left { display: flex; align-items: center; gap: 14px; }
-  .logo-paymob { height: 46px; width: 46px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
-  .header-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.25); flex-shrink: 0; }
-  .header-titles { display: flex; flex-direction: column; gap: 3px; }
-  .header-tag { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
-  .header-title { font-size: 21px; font-weight: 700; color: var(--white); letter-spacing: -.01em; }
-  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-  .header-date { font-size: 12px; color: rgba(255,255,255,0.55); }
-  .progress-pill {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-  }
-
-  /* STATS BAR */
-  .stats-bar { background: var(--blue-dark); border-bottom: 1px solid var(--blue-deeper); }
-  .stats-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 11px 32px;
-    display: flex;
-    gap: 28px;
-    align-items: center;
-  }
-  .stat { display: flex; flex-direction: column; gap: 1px; }
-  .stat-num { font-size: 18px; font-weight: 700; color: var(--white); }
-  .stat-label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: .06em; }
-  .stat-div { width: 1px; height: 30px; background: rgba(255,255,255,0.15); }
-  .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--white); border-radius: 3px; transition: width .35s ease; }
-
-  /* MAIN */
-  main { max-width: 900px; margin: 0 auto; padding: 24px 32px 0; }
-
-  .controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .ctrl-group { display: flex; gap: 8px; align-items: center; }
-
-  .btn {
-    font-size: 12px;
-    font-weight: 500;
-    font-family: inherit;
-    border-radius: var(--radius-sm);
-    padding: 7px 16px;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--white);
-    color: var(--text-muted);
-    transition: background .15s;
-  }
-  .btn:hover { background: var(--gray-100); }
-  .btn-primary {
-    background: var(--blue);
-    border-color: var(--blue);
-    color: var(--white);
-  }
-  .btn-primary:hover { background: var(--blue-dark); }
-  .save-hint { font-size: 11px; color: var(--text-light); }
-  #save-status { font-size: 12px; color: #16a34a; font-weight: 500; opacity: 0; transition: opacity .4s; }
-
-  /* SECTION */
-  .section {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
-    background: var(--gray-100);
-    border-bottom: 1px solid var(--border);
-  }
-  .section-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
-  .section-title-input {
-    flex: 1;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-main);
-    background: none;
-    border: none;
-    outline: none;
-    cursor: text;
-    font-family: inherit;
-  }
-  .section-title-input:focus { background: var(--white); border-radius: 4px; padding: 2px 6px; }
-  .section-count { font-size: 11px; color: var(--text-light); background: var(--gray-200); padding: 2px 8px; border-radius: 10px; font-weight: 500; }
-  .del-sec-btn { background: none; border: none; color: var(--text-light); font-size: 18px; cursor: pointer; line-height: 1; padding: 0 2px; }
-  .del-sec-btn:hover { color: #e53e3e; }
-
-  /* ITEM */
-  .item {
-    border-bottom: 1px solid var(--gray-100);
-  }
-  .item:last-of-type { border-bottom: none; }
-
-  .item-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 16px 8px;
-    transition: background .1s;
-    cursor: pointer;
-  }
-  .item-top:hover { background: var(--gray-50); }
-  .item.done .item-top { opacity: .5; }
-  .item.done .item-text-input { text-decoration: line-through; }
-
-  .checkbox {
-    width: 17px; height: 17px;
-    border: 1.5px solid var(--blue-mid);
-    border-radius: 4px;
-    flex-shrink: 0;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--white);
-    transition: background .15s, border-color .15s;
-  }
-  .checkbox.checked { background: var(--blue); border-color: var(--blue); }
-  .checkmark { display: none; }
-  .checkbox.checked .checkmark { display: block; }
-
-  .item-text-input {
-    flex: 1;
-    font-size: 13px;
-    color: var(--text-main);
-    background: none;
-    border: none;
-    outline: none;
-    cursor: text;
-    font-family: inherit;
-    line-height: 1.45;
-  }
-  .item-text-input:focus { background: var(--gray-100); border-radius: 4px; padding: 2px 6px; }
-
-  .expand-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    color: var(--text-light);
-    font-size: 11px;
-    cursor: pointer;
-    padding: 2px 7px;
-    white-space: nowrap;
-    font-family: inherit;
-    transition: background .12s, color .12s;
-  }
-  .expand-btn:hover { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
-  .expand-btn.open { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
-
-  .del-item-btn {
-    background: none; border: none; color: var(--text-light);
-    font-size: 15px; cursor: pointer; opacity: 0; transition: opacity .1s;
-    padding: 0 2px; flex-shrink: 0;
-  }
-  .item-top:hover .del-item-btn { opacity: 1; }
-  .del-item-btn:hover { color: #e53e3e; }
-
-  /* ANSWER BOX */
-  .answer-wrap {
-    display: none;
-    padding: 0 16px 12px 43px;
-    background: var(--gray-50);
-    border-top: 1px solid var(--gray-100);
-  }
-  .answer-wrap.open { display: block; }
-  .answer-label { font-size: 11px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; padding-top: 10px; }
-  .answer-textarea {
-    width: 100%;
-    min-height: 64px;
-    font-size: 13px;
-    font-family: inherit;
-    color: var(--text-main);
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 8px 10px;
-    resize: vertical;
-    outline: none;
-    line-height: 1.5;
-    transition: border-color .15s;
-  }
-  .answer-textarea:focus { border-color: var(--blue); }
-  .answer-textarea::placeholder { color: var(--text-light); }
-
-  /* ADD ITEM ROW */
-  .add-item-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 16px;
-    border-top: 1px dashed var(--border);
-    background: var(--gray-50);
-  }
-  .add-item-row input {
-    flex: 1; font-size: 13px; color: var(--text-muted);
-    background: none; border: none; outline: none; font-family: inherit;
-  }
-  .add-item-row input::placeholder { color: var(--text-light); }
-  .add-icon { color: var(--blue-mid); font-size: 16px; }
-
-  /* ADD SECTION */
-  .add-sec-btn {
-    width: 100%; padding: 10px 16px;
-    background: none;
-    border: 1px dashed var(--blue-mid);
-    border-radius: var(--radius);
-    font-size: 13px; font-weight: 500;
-    color: var(--blue); cursor: pointer;
-    text-align: left; font-family: inherit;
-    transition: background .15s;
-    margin-top: 4px;
-  }
-  .add-sec-btn:hover { background: var(--blue-light); }
-
-  /* FOOTER */
-  footer {
-    max-width: 900px;
-    margin: 24px auto 0;
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .footer-brand { display: flex; align-items: center; gap: 8px; }
-  .footer-logo { height: 22px; width: 22px; border-radius: 5px; object-fit: cover; }
-  .footer-text { font-size: 12px; color: var(--text-light); }
-  .footer-label { font-size: 11px; color: var(--text-light); background: var(--gray-100); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0057FF;--blue-dark:#0040CC;--blue-deeper:#002E99;
+  --blue-light:#E6EEFF;--blue-mid:#BBCFFF;--white:#ffffff;
+  --gray-50:#F7F9FF;--gray-100:#EEF2FF;--gray-200:#DDE6FF;
+  --border:#D0DCFF;--text-main:#0A1A3C;--text-muted:#4A5F8A;
+  --text-light:#7A90B8;--radius:12px;--radius-sm:7px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--gray-50);color:var(--text-main);min-height:100vh;padding-bottom:4rem}
+ 
+/* HEADER */
+header{background:var(--blue);position:relative;overflow:hidden}
+header::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06)}
+header::after{content:'';position:absolute;right:80px;top:30px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.04)}
+.header-inner{max-width:940px;margin:0 auto;padding:26px 32px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;z-index:2}
+.header-left{display:flex;align-items:center;gap:14px}
+.logo-paymob{height:46px;width:46px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.hdiv{width:1px;height:36px;background:rgba(255,255,255,.25);flex-shrink:0}
+.header-titles{display:flex;flex-direction:column;gap:3px}
+.header-tag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.header-title{font-size:21px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.header-date{font-size:12px;color:rgba(255,255,255,.55)}
+.progress-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:4px 14px;font-size:13px;font-weight:600;color:#fff}
+ 
+/* STATS */
+.stats-bar{background:var(--blue-dark);border-bottom:1px solid var(--blue-deeper)}
+.stats-inner{max-width:940px;margin:0 auto;padding:11px 32px;display:flex;gap:28px;align-items:center}
+.stat{display:flex;flex-direction:column;gap:1px}
+.stat-num{font-size:18px;font-weight:700;color:#fff}
+.stat-label{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em}
+.stat-div{width:1px;height:30px;background:rgba(255,255,255,.15)}
+.progress-track{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:#fff;border-radius:3px;transition:width .35s ease}
+ 
+/* MERCHANT BAR */
+.merchant-bar{background:#fff;border-bottom:1px solid var(--border)}
+.merchant-inner{max-width:940px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.merchant-label{font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.merchant-input{flex:1;min-width:200px;font-size:14px;font-weight:500;color:var(--text-main);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 12px;outline:none;font-family:inherit;background:var(--gray-50)}
+.merchant-input:focus{border-color:var(--blue);background:#fff}
+.merchant-select{font-size:13px;color:var(--text-muted);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 10px;outline:none;font-family:inherit;background:var(--gray-50);cursor:pointer;min-width:180px}
+.btn{font-size:12px;font-weight:600;font-family:inherit;border-radius:var(--radius-sm);padding:7px 16px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text-muted);transition:background .15s;white-space:nowrap}
+.btn:hover{background:var(--gray-100)}
+.btn-blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn-blue:hover{background:var(--blue-dark)}
+.btn-green{background:#16a34a;border-color:#16a34a;color:#fff}
+.btn-green:hover{background:#15803d}
+.btn-red{background:#dc2626;border-color:#dc2626;color:#fff}
+.btn-red:hover{background:#b91c1c}
+ 
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;color:#fff;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.toast.success{background:#16a34a}
+.toast.error{background:#dc2626}
+.toast.info{background:var(--blue)}
+ 
+/* MAIN */
+main{max-width:940px;margin:0 auto;padding:24px 32px 0}
+.controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.ctrl-left{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ctrl-right{display:flex;gap:8px;align-items:center}
+ 
+/* SECTION */
+.section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+.section-head{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--gray-100);border-bottom:1px solid var(--border)}
+.section-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.section-title-input{flex:1;font-size:13px;font-weight:600;color:var(--text-main);background:none;border:none;outline:none;cursor:text;font-family:inherit}
+.section-title-input:focus{background:#fff;border-radius:4px;padding:2px 6px}
+.section-count{font-size:11px;color:var(--text-light);background:var(--gray-200);padding:2px 8px;border-radius:10px;font-weight:500}
+.del-sec-btn{background:none;border:none;color:var(--text-light);font-size:18px;cursor:pointer;line-height:1;padding:0 2px}
+.del-sec-btn:hover{color:#dc2626}
+ 
+/* ITEM */
+.item{border-bottom:1px solid var(--gray-100)}
+.item:last-of-type{border-bottom:none}
+.item-top{display:flex;align-items:center;gap:10px;padding:9px 16px 8px;transition:background .1s}
+.item-top:hover{background:var(--gray-50)}
+.item.done .item-top{opacity:.5}
+.item.done .item-text-input{text-decoration:line-through}
+.checkbox{width:17px;height:17px;border:1.5px solid var(--blue-mid);border-radius:4px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fff;transition:background .15s,border-color .15s}
+.checkbox.checked{background:var(--blue);border-color:var(--blue)}
+.checkmark{display:none}
+.checkbox.checked .checkmark{display:block}
+.item-text-input{flex:1;font-size:13px;color:var(--text-main);background:none;border:none;outline:none;cursor:text;font-family:inherit;line-height:1.45}
+.item-text-input:focus{background:var(--gray-100);border-radius:4px;padding:2px 6px}
+.expand-btn{background:none;border:1px solid var(--border);border-radius:5px;color:var(--text-light);font-size:11px;cursor:pointer;padding:2px 8px;white-space:nowrap;font-family:inherit;transition:background .12s,color .12s}
+.expand-btn:hover,.expand-btn.open{background:var(--blue-light);color:var(--blue);border-color:var(--blue-mid)}
+.del-item-btn{background:none;border:none;color:var(--text-light);font-size:15px;cursor:pointer;opacity:0;transition:opacity .1s;padding:0 2px;flex-shrink:0}
+.item-top:hover .del-item-btn{opacity:1}
+.del-item-btn:hover{color:#dc2626}
+ 
+/* ANSWER */
+.answer-wrap{display:none;padding:0 16px 12px 43px;background:var(--gray-50);border-top:1px solid var(--gray-100)}
+.answer-wrap.open{display:block}
+.answer-label{font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;padding-top:10px}
+.answer-textarea{width:100%;min-height:64px;font-size:13px;font-family:inherit;color:var(--text-main);background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;resize:vertical;outline:none;line-height:1.5;transition:border-color .15s}
+.answer-textarea:focus{border-color:var(--blue)}
+.answer-textarea::placeholder{color:var(--text-light)}
+ 
+/* ADD ITEM */
+.add-item-row{display:flex;align-items:center;gap:10px;padding:7px 16px;border-top:1px dashed var(--border);background:var(--gray-50)}
+.add-item-row input{flex:1;font-size:13px;color:var(--text-muted);background:none;border:none;outline:none;font-family:inherit}
+.add-item-row input::placeholder{color:var(--text-light)}
+.add-icon{color:var(--blue-mid);font-size:16px}
+.add-sec-btn{width:100%;padding:10px 16px;background:none;border:1px dashed var(--blue-mid);border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--blue);cursor:pointer;text-align:left;font-family:inherit;transition:background .15s;margin-top:4px}
+.add-sec-btn:hover{background:var(--blue-light)}
+ 
+/* SESSIONS PANEL */
+.sessions-panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:18px}
+.sessions-title{font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.session-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto}
+.session-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:background .12s}
+.session-item:hover{background:var(--gray-50)}
+.session-item.active{border-color:var(--blue);background:var(--blue-light)}
+.session-name{flex:1;font-size:13px;font-weight:500;color:var(--text-main)}
+.session-meta{font-size:11px;color:var(--text-light)}
+.session-pct{font-size:11px;font-weight:600;color:var(--blue);background:var(--gray-200);padding:2px 7px;border-radius:8px}
+.session-del{background:none;border:none;color:var(--text-light);font-size:14px;cursor:pointer;opacity:0;padding:0 2px}
+.session-item:hover .session-del{opacity:1}
+.session-del:hover{color:#dc2626}
+.no-sessions{font-size:13px;color:var(--text-light);text-align:center;padding:16px 0}
+ 
+/* LOADING OVERLAY */
+.loading{position:fixed;inset:0;background:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:12px}
+.loading.hidden{display:none}
+.spinner{width:32px;height:32px;border:3px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--text-muted)}
+ 
+/* FOOTER */
+footer{max-width:940px;margin:24px auto 0;padding:0 32px;display:flex;align-items:center;justify-content:space-between}
+.footer-brand{display:flex;align-items:center;gap:8px}
+.footer-logo{height:22px;width:22px;border-radius:5px;object-fit:cover}
+.footer-text{font-size:12px;color:var(--text-light)}
+.footer-label{font-size:11px;color:var(--text-light);background:var(--gray-100);border:1px solid var(--border);border-radius:6px;padding:3px 10px}
 </style>
 </head>
 <body>
-
+ 
+<div class="loading hidden" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">Loading...</div>
+</div>
+ 
+<div class="toast" id="toast"></div>
+ 
 <header>
   <div class="header-inner">
     <div class="header-left">
-      <img class="logo-paymob" src="data:image/jpeg;base64,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" alt="Paymob" />
-      <div class="header-divider"></div>
+      <img class="logo-paymob" id="logo" alt="Paymob" />
+      <div class="hdiv"></div>
       <div class="header-titles">
         <span class="header-tag">Integration Consulting</span>
         <span class="header-title">Merchant Onboarding Checklist</span>
@@ -325,7 +169,7 @@
     </div>
   </div>
 </header>
-
+ 
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat"><span class="stat-num" id="s-done">0</span><span class="stat-label">Covered</span></div>
@@ -337,194 +181,306 @@
     <div class="progress-track"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
   </div>
 </div>
-
+ 
+<div class="merchant-bar">
+  <div class="merchant-inner">
+    <span class="merchant-label">Merchant</span>
+    <input class="merchant-input" id="merchant-name" placeholder="Enter merchant name..." />
+    <select class="merchant-select" id="session-select" onchange="loadSession(this.value)">
+      <option value="">— Load existing session —</option>
+    </select>
+    <button class="btn btn-blue" onclick="newSession()">New session</button>
+    <button class="btn btn-green" onclick="saveToCloud()">Save to database</button>
+    <button class="btn" onclick="exportSession()">Export PDF</button>
+  </div>
+</div>
+ 
 <main>
   <div class="controls">
-    <div class="ctrl-group">
-      <button class="btn btn-primary" onclick="saveAll()">Save answers</button>
-      <span id="save-status">Saved!</span>
-    </div>
-    <div class="ctrl-group">
+    <div class="ctrl-left">
       <button class="btn" onclick="expandAll()">Expand all</button>
       <button class="btn" onclick="collapseAll()">Collapse all</button>
       <button class="btn" onclick="resetAll()">Uncheck all</button>
+    </div>
+    <div class="ctrl-right">
+      <span style="font-size:11px;color:var(--text-light)" id="last-saved"></span>
     </div>
   </div>
   <div id="checklist"></div>
   <button class="add-sec-btn" onclick="addSection()">+ Add section</button>
 </main>
-
+ 
 <footer>
   <div class="footer-brand">
-    <img class="footer-logo" src="data:image/jpeg;base64,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" alt="Paymob" />
-    <span class="footer-text">Paymob Integration Consulting — Internal Use</span>
+    <img class="footer-logo" id="footer-logo" alt="Paymob" />
+    <span class="footer-text">Paymob Integration Consulting — Team Shared</span>
   </div>
-  <span class="footer-label">v1.1</span>
+  <span class="footer-label">v2.0 — Supabase</span>
 </footer>
-
+ 
 <script>
-const KEY = 'paymob_cl_v2';
-let sections = [
-  {title:"Business understanding", items:[
-    {t:"What do they do and how do they make money?", done:false, answer:""},
-    {t:"Who am I speaking with and what is their role?", done:false, answer:""},
-    {t:"Business type — e-commerce, SaaS, restaurant, marketplace?", done:false, answer:""},
-    {t:"Have they integrated a payment gateway before?", done:false, answer:""},
-  ]},
-  {title:"Goals & timeline", items:[
-    {t:"What specific outcome are they trying to achieve?", done:false, answer:""},
-    {t:"Is there a hard go-live date? What is driving it?", done:false, answer:""},
-    {t:"How many developers are assigned to this?", done:false, answer:""},
-    {t:"Any upcoming blockers — holidays, freezes, other projects?", done:false, answer:""},
-  ]},
-  {title:"Technical setup", items:[
-    {t:"What language, framework, or platform are they using?", done:false, answer:""},
-    {t:"Website, mobile app, or both?", done:false, answer:""},
-    {t:"Any existing PSP or payment system in place?", done:false, answer:""},
-    {t:"Do they have a test / staging environment?", done:false, answer:""},
-  ]},
-  {title:"Payment flows", items:[
-    {t:"Which payment methods must work at launch?", done:false, answer:""},
-    {t:"Which currencies and countries are in scope?", done:false, answer:""},
-    {t:"Expected monthly volume and peak load?", done:false, answer:""},
-    {t:"Any recurring billing, refunds, or split payments needed?", done:false, answer:""},
-  ]},
-  {title:"Risk & operations", items:[
-    {t:"Who owns fraud and compliance decisions on their side?", done:false, answer:""},
-    {t:"Fallback plan if the payment system goes down?", done:false, answer:""},
-    {t:"Who maintains the integration after go-live?", done:false, answer:""},
-    {t:"Who has final sign-off authority?", done:false, answer:""},
-  ]}
-];
-
-function save() {
-  try { localStorage.setItem(KEY, JSON.stringify(sections)); } catch(e) {}
+const SUPABASE_URL = 'https://teyajssqspfaxtbvebqj.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRleWFqc3Nxc3BmYXh0YnZlYnFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTA5MTksImV4cCI6MjA5MzI4NjkxOX0.4Nf4hRrM6jce-MShIxKy-uiRkCBeNnR6aHEnl0cxTG0';
+const HEADERS = { 'Content-Type':'application/json', 'apikey': SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY, 'Prefer':'return=representation' };
+ 
+let currentSessionId = null;
+let sections = defaultSections();
+ 
+function defaultSections() {
+  return [
+    {title:"Business understanding", items:[
+      {t:"What do they do and how do they make money?",done:false,answer:""},
+      {t:"Who am I speaking with and what is their role?",done:false,answer:""},
+      {t:"Business type — e-commerce, SaaS, restaurant, marketplace?",done:false,answer:""},
+      {t:"Have they integrated a payment gateway before?",done:false,answer:""},
+    ]},
+    {title:"Goals & timeline", items:[
+      {t:"What specific outcome are they trying to achieve?",done:false,answer:""},
+      {t:"Is there a hard go-live date? What is driving it?",done:false,answer:""},
+      {t:"How many developers are assigned to this?",done:false,answer:""},
+      {t:"Any upcoming blockers — holidays, freezes, other projects?",done:false,answer:""},
+    ]},
+    {title:"Technical setup", items:[
+      {t:"What language, framework, or platform are they using?",done:false,answer:""},
+      {t:"Website, mobile app, or both?",done:false,answer:""},
+      {t:"Any existing PSP or payment system in place?",done:false,answer:""},
+      {t:"Do they have a test / staging environment?",done:false,answer:""},
+    ]},
+    {title:"Payment flows", items:[
+      {t:"Which payment methods must work at launch?",done:false,answer:""},
+      {t:"Which currencies and countries are in scope?",done:false,answer:""},
+      {t:"Expected monthly volume and peak load?",done:false,answer:""},
+      {t:"Any recurring billing, refunds, or split payments needed?",done:false,answer:""},
+    ]},
+    {title:"Risk & operations", items:[
+      {t:"Who owns fraud and compliance decisions on their side?",done:false,answer:""},
+      {t:"Fallback plan if the payment system goes down?",done:false,answer:""},
+      {t:"Who maintains the integration after go-live?",done:false,answer:""},
+      {t:"Who has final sign-off authority?",done:false,answer:""},
+    ]}
+  ];
 }
-function load() {
-  try { const d = localStorage.getItem(KEY); if(d) sections = JSON.parse(d); } catch(e) {}
+ 
+/* ── SUPABASE ── */
+async function dbFetch(path, opts={}) {
+  const res = await fetch(SUPABASE_URL + path, { headers: HEADERS, ...opts });
+  if (!res.ok) { const e = await res.text(); throw new Error(e); }
+  try { return await res.json(); } catch { return null; }
 }
-load();
-
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+ 
+async function loadAllSessions() {
+  try {
+    const data = await dbFetch('/rest/v1/merchant_sessions?select=id,merchant_name,created_at,updated_at,completed_count,total_count&order=updated_at.desc');
+    const sel = document.getElementById('session-select');
+    sel.innerHTML = '<option value="">— Load existing session —</option>';
+    (data||[]).forEach(s => {
+      const pct = s.total_count ? Math.round(s.completed_count/s.total_count*100) : 0;
+      const date = new Date(s.updated_at||s.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.merchant_name + ' — ' + pct + '% — ' + date;
+      sel.appendChild(opt);
+    });
+  } catch(e) { showToast('Could not load sessions: '+e.message, 'error'); }
 }
-
-function updateStats() {
-  let done = 0, total = 0;
-  sections.forEach(s => { total += s.items.length; done += s.items.filter(i => i.done).length; });
-  const pct = total ? Math.round(done/total*100) : 0;
-  document.getElementById('s-done').textContent = done;
-  document.getElementById('s-left').textContent = total - done;
-  document.getElementById('s-pct').textContent = pct + '%';
-  document.getElementById('pbar').style.width = pct + '%';
-  document.getElementById('hprog').textContent = done + ' / ' + total + ' done';
+ 
+async function loadSession(id) {
+  if (!id) return;
+  showLoading('Loading session...');
+  try {
+    const data = await dbFetch('/rest/v1/merchant_sessions?id=eq.'+id+'&select=*');
+    if (data && data[0]) {
+      const s = data[0];
+      currentSessionId = s.id;
+      document.getElementById('merchant-name').value = s.merchant_name || '';
+      sections = s.sections || defaultSections();
+      document.getElementById('last-saved').textContent = 'Last saved: ' + new Date(s.updated_at||s.created_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+      render();
+      showToast('Session loaded: ' + s.merchant_name, 'success');
+    }
+  } catch(e) { showToast('Load failed: '+e.message, 'error'); }
+  hideLoading();
 }
-
+ 
+async function saveToCloud() {
+  collectAnswers();
+  const name = document.getElementById('merchant-name').value.trim();
+  if (!name) { showToast('Please enter a merchant name first', 'error'); document.getElementById('merchant-name').focus(); return; }
+  let done=0, total=0;
+  sections.forEach(s=>{ total+=s.items.length; done+=s.items.filter(i=>i.done).length; });
+  showLoading('Saving to database...');
+  try {
+    if (currentSessionId) {
+      await dbFetch('/rest/v1/merchant_sessions?id=eq.'+currentSessionId, {
+        method:'PATCH',
+        body: JSON.stringify({ merchant_name:name, sections, completed_count:done, total_count:total, updated_at: new Date().toISOString() })
+      });
+      showToast('Saved successfully!', 'success');
+    } else {
+      const data = await dbFetch('/rest/v1/merchant_sessions', {
+        method:'POST',
+        body: JSON.stringify({ merchant_name:name, sections, completed_count:done, total_count:total })
+      });
+      if (data && data[0]) { currentSessionId = data[0].id; }
+      showToast('New session saved!', 'success');
+    }
+    document.getElementById('last-saved').textContent = 'Saved: ' + new Date().toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    await loadAllSessions();
+    document.getElementById('session-select').value = currentSessionId || '';
+  } catch(e) { showToast('Save failed: '+e.message, 'error'); }
+  hideLoading();
+}
+ 
+function newSession() {
+  if (!confirm('Start a new blank session? Unsaved changes will be lost.')) return;
+  currentSessionId = null;
+  document.getElementById('merchant-name').value = '';
+  document.getElementById('session-select').value = '';
+  document.getElementById('last-saved').textContent = '';
+  sections = defaultSections();
+  render();
+  document.getElementById('merchant-name').focus();
+  showToast('New session started', 'info');
+}
+ 
+async function deleteSession(id) {
+  if (!confirm('Delete this session permanently?')) return;
+  try {
+    await dbFetch('/rest/v1/merchant_sessions?id=eq.'+id, { method:'DELETE' });
+    if (currentSessionId === id) { newSession(); }
+    await loadAllSessions();
+    showToast('Session deleted', 'info');
+  } catch(e) { showToast('Delete failed: '+e.message, 'error'); }
+}
+ 
+/* ── EXPORT PDF ── */
+function exportSession() {
+  collectAnswers();
+  const name = document.getElementById('merchant-name').value || 'Merchant';
+  let html = '<html><head><style>body{font-family:Arial,sans-serif;padding:32px;color:#0A1A3C;max-width:800px;margin:0 auto}h1{color:#0057FF;font-size:22px;margin-bottom:4px}h2{font-size:14px;color:#4A5F8A;margin:24px 0 8px;border-bottom:1px solid #DDE6FF;padding-bottom:4px}.item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid #EEF2FF}.cb{width:14px;height:14px;border:2px solid #BBCFFF;border-radius:3px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px}.cb.done{background:#0057FF;border-color:#0057FF;color:#fff}.q{font-size:13px;flex:1}.ans{background:#F7F9FF;border-left:3px solid #0057FF;padding:6px 10px;margin:4px 0 4px 24px;font-size:12px;color:#4A5F8A;border-radius:0 4px 4px 0}.meta{font-size:12px;color:#7A90B8;margin-bottom:24px}</style></head><body>';
+  html += '<h1>Paymob — Merchant Onboarding Checklist</h1>';
+  html += '<div class="meta">Merchant: <strong>' + name + '</strong> &nbsp;|&nbsp; Date: ' + new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) + '</div>';
+  sections.forEach(sec => {
+    html += '<h2>' + sec.title + '</h2>';
+    sec.items.forEach(item => {
+      html += '<div class="item"><div class="cb' + (item.done?' done':'') + '">' + (item.done?'✓':'') + '</div><div class="q">' + item.t + (item.answer ? '<div class="ans">' + item.answer.replace(/\n/g,'<br>') + '</div>' : '') + '</div></div>';
+    });
+  });
+  html += '<script>
+var _l="data:image/png;base64,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";
+document.getElementById('logo').src=_l;
+document.getElementById('footer-logo').src=_l;
+</script>
+</body></html>';
+  const w = window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(() => w.print(), 500);
+}
+ 
+/* ── RENDER ── */
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+ 
 function render() {
   const cl = document.getElementById('checklist');
   cl.innerHTML = '';
   sections.forEach((sec, si) => {
-    const doneCt = sec.items.filter(i => i.done).length;
+    const doneCt = sec.items.filter(i=>i.done).length;
     const div = document.createElement('div');
     div.className = 'section';
-    let itemsHtml = sec.items.map((item, ii) => {
-      const uid = 'a-' + si + '-' + ii;
-      return '<div class="item' + (item.done ? ' done' : '') + '" id="item-' + si + '-' + ii + '">' +
+    const itemsHtml = sec.items.map((item, ii) => {
+      const uid = 'a-'+si+'-'+ii;
+      return '<div class="item'+(item.done?' done':'')+'" id="item-'+si+'-'+ii+'">' +
         '<div class="item-top">' +
-          '<div class="checkbox' + (item.done ? ' checked' : '') + '" onclick="toggle(' + si + ',' + ii + ')">' +
+          '<div class="checkbox'+(item.done?' checked':'')+'" onclick="toggle('+si+','+ii+')">' +
             '<svg class="checkmark" width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
           '</div>' +
-          '<input class="item-text-input" value="' + esc(item.t) + '" onchange="sections[' + si + '].items[' + ii + '].t=this.value;save()" />' +
-          '<button class="expand-btn" id="btn-' + uid + '" onclick="toggleAnswer(\'' + uid + '\')">' +
-            (item.answer ? 'View answer' : 'Add answer') +
+          '<input class="item-text-input" value="'+esc(item.t)+'" onchange="sections['+si+'].items['+ii+'].t=this.value" />' +
+          '<button class="expand-btn'+(item.answer?' open':'')+'" id="btn-'+uid+'" onclick="toggleAnswer(\''+uid+'\')">'+
+            (item.answer?'View answer':'Add answer')+
           '</button>' +
-          '<button class="del-item-btn" onclick="delItem(' + si + ',' + ii + ')">×</button>' +
+          '<button class="del-item-btn" onclick="delItem('+si+','+ii+')">×</button>' +
         '</div>' +
-        '<div class="answer-wrap' + (item.answer ? ' open' : '') + '" id="' + uid + '">' +
+        '<div class="answer-wrap'+(item.answer?' open':'')+'" id="'+uid+'">' +
           '<div class="answer-label">Answer / Notes</div>' +
-          '<textarea class="answer-textarea" placeholder="Type your answer here..." onchange="sections[' + si + '].items[' + ii + '].answer=this.value;save();updateBtnLabel(\'' + uid + '\',this.value)">' + esc(item.answer) + '</textarea>' +
+          '<textarea class="answer-textarea" placeholder="Type your answer here..." onchange="sections['+si+'].items['+ii+'].answer=this.value;updateBtnLabel(\''+uid+'\',this.value)">'+esc(item.answer)+'</textarea>' +
         '</div>' +
       '</div>';
     }).join('');
-
     div.innerHTML =
       '<div class="section-head">' +
         '<div class="section-dot"></div>' +
-        '<input class="section-title-input" value="' + esc(sec.title) + '" onchange="sections[' + si + '].title=this.value;save()" />' +
-        '<span class="section-count">' + doneCt + ' / ' + sec.items.length + '</span>' +
-        '<button class="del-sec-btn" onclick="delSection(' + si + ')">×</button>' +
-      '</div>' +
-      itemsHtml +
-      '<div class="add-item-row">' +
-        '<span class="add-icon">+</span>' +
-        '<input placeholder="Add item and press Enter..." onkeydown="if(event.key===\'Enter\'&&this.value.trim()){addItem(' + si + ',this.value.trim());this.value=\'\'}" />' +
-      '</div>';
+        '<input class="section-title-input" value="'+esc(sec.title)+'" onchange="sections['+si+'].title=this.value" />' +
+        '<span class="section-count">'+doneCt+' / '+sec.items.length+'</span>' +
+        '<button class="del-sec-btn" onclick="delSection('+si+')">×</button>' +
+      '</div>' + itemsHtml +
+      '<div class="add-item-row"><span class="add-icon">+</span><input placeholder="Add item and press Enter..." onkeydown="if(event.key===\'Enter\'&&this.value.trim()){addItem('+si+',this.value.trim());this.value=\'\'}" /></div>';
     cl.appendChild(div);
   });
   updateStats();
 }
-
-function toggleAnswer(uid) {
-  const wrap = document.getElementById(uid);
-  const btn = document.getElementById('btn-' + uid);
-  const isOpen = wrap.classList.contains('open');
-  wrap.classList.toggle('open', !isOpen);
-  btn.classList.toggle('open', !isOpen);
-  const ta = wrap.querySelector('textarea');
-  if (!isOpen) { btn.textContent = ta.value ? 'View answer' : 'Add answer'; }
-}
-
-function updateBtnLabel(uid, val) {
-  const btn = document.getElementById('btn-' + uid);
-  if (btn) btn.textContent = val ? 'View answer' : 'Add answer';
-}
-
-function expandAll() {
-  document.querySelectorAll('.answer-wrap').forEach(w => w.classList.add('open'));
-  document.querySelectorAll('.expand-btn').forEach(b => b.classList.add('open'));
-}
-function collapseAll() {
-  document.querySelectorAll('.answer-wrap').forEach(w => w.classList.remove('open'));
-  document.querySelectorAll('.expand-btn').forEach(b => b.classList.remove('open'));
-}
-
-function toggle(si, ii) {
-  sections[si].items[ii].done = !sections[si].items[ii].done;
-  save(); render();
-}
-function delItem(si, ii) {
-  sections[si].items.splice(ii, 1); save(); render();
-}
-function delSection(si) {
-  if (confirm('Remove this section?')) { sections.splice(si, 1); save(); render(); }
-}
-function addItem(si, t) {
-  sections[si].items.push({t, done:false, answer:''}); save(); render();
-}
-function addSection() {
-  sections.push({title:'New section', items:[]}); save(); render();
-}
-function resetAll() {
-  sections.forEach(s => s.items.forEach(i => i.done = false)); save(); render();
-}
-
-function saveAll() {
+ 
+function collectAnswers() {
   document.querySelectorAll('.answer-textarea').forEach(ta => {
     const id = ta.closest('.answer-wrap').id;
     const parts = id.split('-');
     const si = parseInt(parts[1]), ii = parseInt(parts[2]);
-    if (sections[si] && sections[si].items[ii]) {
-      sections[si].items[ii].answer = ta.value;
-    }
+    if (sections[si]&&sections[si].items[ii]) sections[si].items[ii].answer = ta.value;
   });
-  save();
-  const el = document.getElementById('save-status');
-  el.style.opacity = '1';
-  setTimeout(() => { el.style.opacity = '0'; }, 2500);
+  document.querySelectorAll('.item-text-input').forEach(inp => {
+    const id = inp.closest('.item').id;
+    const parts = id.split('-');
+    const si = parseInt(parts[1]), ii = parseInt(parts[2]);
+    if (sections[si]&&sections[si].items[ii]) sections[si].items[ii].t = inp.value;
+  });
 }
-
-document.getElementById('hdate').textContent = new Date().toLocaleDateString('en-GB', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+ 
+function updateStats() {
+  let done=0, total=0;
+  sections.forEach(s=>{ total+=s.items.length; done+=s.items.filter(i=>i.done).length; });
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-left').textContent = total-done;
+  document.getElementById('s-pct').textContent = pct+'%';
+  document.getElementById('pbar').style.width = pct+'%';
+  document.getElementById('hprog').textContent = done+' / '+total+' done';
+}
+ 
+function toggleAnswer(uid) {
+  const wrap = document.getElementById(uid);
+  const btn = document.getElementById('btn-'+uid);
+  const isOpen = wrap.classList.contains('open');
+  wrap.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+}
+function updateBtnLabel(uid,val) {
+  const btn = document.getElementById('btn-'+uid);
+  if(btn) btn.textContent = val?'View answer':'Add answer';
+}
+function expandAll(){ document.querySelectorAll('.answer-wrap').forEach(w=>w.classList.add('open')); document.querySelectorAll('.expand-btn').forEach(b=>b.classList.add('open')); }
+function collapseAll(){ document.querySelectorAll('.answer-wrap').forEach(w=>w.classList.remove('open')); document.querySelectorAll('.expand-btn').forEach(b=>b.classList.remove('open')); }
+function toggle(si,ii){ sections[si].items[ii].done=!sections[si].items[ii].done; render(); }
+function delItem(si,ii){ sections[si].items.splice(ii,1); render(); }
+function delSection(si){ if(confirm('Remove this section?')){ sections.splice(si,1); render(); } }
+function addItem(si,t){ sections[si].items.push({t,done:false,answer:''}); render(); }
+function addSection(){ sections.push({title:'New section',items:[]}); render(); }
+function resetAll(){ sections.forEach(s=>s.items.forEach(i=>i.done=false)); render(); }
+ 
+/* ── TOAST ── */
+let toastTimer;
+function showToast(msg,type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast '+type+' show';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3000);
+}
+ 
+/* ── LOADING ── */
+function showLoading(msg='Loading...') { document.getElementById('loading-text').textContent=msg; document.getElementById('loading').classList.remove('hidden'); }
+function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
+ 
+/* ── INIT ── */
+document.getElementById('hdate').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 render();
+loadAllSessions();
 </script>
-</body>
-</html>
