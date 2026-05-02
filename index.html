@@ -104,13 +104,13 @@ footer{max-width:960px;margin:24px auto 0;padding:0 32px;display:flex;align-item
 </style>
 </head>
 <body>
-
+ 
 <div class="loading-overlay hidden" id="loading">
   <div class="spinner"></div>
   <div class="loading-text" id="loading-text">Loading...</div>
 </div>
 <div class="toast" id="toast"></div>
-
+ 
 <header>
   <div class="header-inner">
     <div class="header-left">
@@ -127,7 +127,7 @@ footer{max-width:960px;margin:24px auto 0;padding:0 32px;display:flex;align-item
     </div>
   </div>
 </header>
-
+ 
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat"><span class="stat-num" id="s-done">0</span><span class="stat-label">Covered</span></div>
@@ -139,7 +139,7 @@ footer{max-width:960px;margin:24px auto 0;padding:0 32px;display:flex;align-item
     <div class="progress-track"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
   </div>
 </div>
-
+ 
 <div class="merchant-bar">
   <div class="merchant-inner">
     <span class="merchant-label">Merchant</span>
@@ -152,7 +152,7 @@ footer{max-width:960px;margin:24px auto 0;padding:0 32px;display:flex;align-item
     <button class="btn" onclick="exportPDF()">Export PDF</button>
   </div>
 </div>
-
+ 
 <main>
   <div class="controls">
     <div class="ctrl-left">
@@ -165,18 +165,18 @@ footer{max-width:960px;margin:24px auto 0;padding:0 32px;display:flex;align-item
   </div>
   <div id="checklist"></div>
 </main>
-
+ 
 <footer>
   <span class="footer-text">Paymob Integration Consulting -- Team Shared</span>
   <span class="footer-label">v2.0 Supabase</span>
 </footer>
-
+ 
 <script>
 var SUPA_URL = 'https://teyajssqspfaxtbvebqj.supabase.co';
 var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRleWFqc3Nxc3BmYXh0YnZlYnFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTA5MTksImV4cCI6MjA5MzI4NjkxOX0.4Nf4hRrM6jce-MShIxKy-uiRkCBeNnR6aHEnl0cxTG0';
 var currentId = null;
 var sections = getDefaults();
-
+ 
 function getDefaults() {
   return [
     {title:'Business understanding', items:[
@@ -211,7 +211,7 @@ function getDefaults() {
     ]}
   ];
 }
-
+ 
 function esc(s) {
   var r = String(s || '');
   r = r.split('&').join('&amp;');
@@ -220,7 +220,7 @@ function esc(s) {
   r = r.split('>').join('&gt;');
   return r;
 }
-
+ 
 function dbHeaders() {
   return {
     'Content-Type': 'application/json',
@@ -229,7 +229,7 @@ function dbHeaders() {
     'Prefer': 'return=representation'
   };
 }
-
+ 
 async function dbFetch(path, opts) {
   opts = opts || {};
   opts.headers = dbHeaders();
@@ -240,7 +240,7 @@ async function dbFetch(path, opts) {
   }
   try { return await res.json(); } catch(e) { return null; }
 }
-
+ 
 async function loadAllSessions() {
   try {
     var rows = await dbFetch('/rest/v1/merchant_sessions?select=id,merchant_name,updated_at,completed_count,total_count&order=updated_at.desc');
@@ -258,7 +258,7 @@ async function loadAllSessions() {
     showToast('Could not load sessions: ' + e.message, 'error');
   }
 }
-
+ 
 async function loadSession(id) {
   if (!id) return;
   showLoading('Loading session...');
@@ -279,7 +279,7 @@ async function loadSession(id) {
   }
   hideLoading();
 }
-
+ 
 async function saveToCloud() {
   collectAnswers();
   var name = document.getElementById('merchant-name').value.trim();
@@ -329,7 +329,7 @@ async function saveToCloud() {
   }
   hideLoading();
 }
-
+ 
 function newSession() {
   if (!confirm('Start a new blank session? Unsaved changes will be lost.')) return;
   currentId = null;
@@ -341,7 +341,7 @@ function newSession() {
   document.getElementById('merchant-name').focus();
   showToast('New session started', 'info');
 }
-
+ 
 function exportPDF() {
   collectAnswers();
   var name = document.getElementById('merchant-name').value || 'Merchant';
@@ -378,7 +378,7 @@ function exportPDF() {
     setTimeout(function() { w.print(); }, 600);
   }
 }
-
+ 
 function collectAnswers() {
   document.querySelectorAll('.answer-textarea').forEach(function(ta) {
     var wrap = ta.closest('.answer-wrap');
@@ -401,7 +401,7 @@ function collectAnswers() {
     }
   });
 }
-
+ 
 function render() {
   var cl = document.getElementById('checklist');
   cl.innerHTML = '';
@@ -447,7 +447,7 @@ function render() {
   });
   updateStats();
 }
-
+ 
 function toggleAnswer(uid) {
   var wrap = document.getElementById(uid);
   var btn = document.getElementById('btn-' + uid);
@@ -455,29 +455,29 @@ function toggleAnswer(uid) {
   wrap.classList.toggle('open', !isOpen);
   btn.classList.toggle('open', !isOpen);
 }
-
+ 
 function updateBtn(uid, val) {
   var btn = document.getElementById('btn-' + uid);
   if (btn) btn.textContent = val ? 'View answer' : 'Add answer';
 }
-
+ 
 function expandAll() {
   document.querySelectorAll('.answer-wrap').forEach(function(w) { w.classList.add('open'); });
   document.querySelectorAll('.expand-btn').forEach(function(b) { b.classList.add('open'); });
 }
-
+ 
 function collapseAll() {
   document.querySelectorAll('.answer-wrap').forEach(function(w) { w.classList.remove('open'); });
   document.querySelectorAll('.expand-btn').forEach(function(b) { b.classList.remove('open'); });
 }
-
+ 
 function toggle(si, ii) { sections[si].items[ii].done = !sections[si].items[ii].done; render(); }
 function delItem(si, ii) { sections[si].items.splice(ii, 1); render(); }
 function delSection(si) { if (confirm('Remove this section?')) { sections.splice(si, 1); render(); } }
 function addItem(si, t) { sections[si].items.push({t:t, done:false, answer:''}); render(); }
 function addSection() { sections.push({title:'New section', items:[]}); render(); }
 function resetAll() { sections.forEach(function(s) { s.items.forEach(function(i) { i.done = false; }); }); render(); }
-
+ 
 function updateStats() {
   var done = 0, total = 0;
   sections.forEach(function(s) {
@@ -491,7 +491,7 @@ function updateStats() {
   document.getElementById('pbar').style.width = pct + '%';
   document.getElementById('hprog').textContent = done + ' / ' + total + ' done';
 }
-
+ 
 var toastTimer;
 function showToast(msg, type) {
   var t = document.getElementById('toast');
@@ -500,16 +500,16 @@ function showToast(msg, type) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function() { t.classList.remove('show'); }, 3500);
 }
-
+ 
 function showLoading(msg) {
   document.getElementById('loading-text').textContent = msg || 'Loading...';
   document.getElementById('loading').classList.remove('hidden');
 }
-
+ 
 function hideLoading() {
   document.getElementById('loading').classList.add('hidden');
 }
-
+ 
 document.getElementById('hdate').textContent = new Date().toLocaleDateString('en-GB', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
 render();
 loadAllSessions();
