@@ -179,35 +179,27 @@ var sections = getDefaults();
  
 function getDefaults() {
   return [
-    {title:'Business understanding', items:[
-      {t:'What do they do and how do they make money?', done:false, answer:''},
-      {t:'Who am I speaking with and what is their role?', done:false, answer:''},
-      {t:'Business type: e-commerce, SaaS, restaurant, marketplace?', done:false, answer:''},
-      {t:'Have they integrated a payment gateway before?', done:false, answer:''}
+    {title:'Business Understanding', items:[
+      {t:'Who am I speaking with and what is their role', done:false, answer:''},
+      {t:'What is the nature of the business, its target market, and the supported currencies', done:false, answer:''},
+      {t:'What is the customer journey until reaching the payment stage', done:false, answer:''},
+      {t:'Have they integrated a payment gateway before', done:false, answer:''},
+      {t:'Do you currently have a development team working with you', done:false, answer:''}
     ]},
-    {title:'Goals and timeline', items:[
-      {t:'What specific outcome are they trying to achieve?', done:false, answer:''},
-      {t:'Is there a hard go-live date and what is driving it?', done:false, answer:''},
-      {t:'How many developers are assigned to this?', done:false, answer:''},
-      {t:'Any upcoming blockers such as holidays or freezes?', done:false, answer:''}
+    {title:'Desgin', items:[
+      {t:'Suggest the best integration method that meet the nature of business', done:false, answer:''},
+      {t:'Suggest the best payment methods that will maximize sales', done:false, answer:''},
+      {t:'Suggest any enhancement or workarounds to the customer journey based on our experience, if needed', done:false, answer:''},
+      {t:'Assign tasks and establish clear timelines to ensure execution aligns with the selected workflow', done:false, answer:''}
     ]},
-    {title:'Technical setup', items:[
-      {t:'What language, framework, or platform are they using?', done:false, answer:''},
-      {t:'Website, mobile app, or both?', done:false, answer:''},
-      {t:'Any existing PSP or payment system in place?', done:false, answer:''},
-      {t:'Do they have a test or staging environment?', done:false, answer:''}
+    {title:'Implmentation', items:[
+      {t:'Follow up with the stakeholders on deadline, both internally and externally', done:false, answer:''},
+      {t:'Provide support through emails or periodic check-ins to ensure alignment and address any blockers', done:false, answer:''}
     ]},
-    {title:'Payment flows', items:[
-      {t:'Which payment methods must work at launch?', done:false, answer:''},
-      {t:'Which currencies and countries are in scope?', done:false, answer:''},
-      {t:'Expected monthly volume and peak load?', done:false, answer:''},
-      {t:'Any recurring billing, refunds, or split payments needed?', done:false, answer:''}
-    ]},
-    {title:'Risk and operations', items:[
-      {t:'Who owns fraud and compliance decisions on their side?', done:false, answer:''},
-      {t:'Fallback plan if the payment system goes down?', done:false, answer:''},
-      {t:'Who maintains the integration after go-live?', done:false, answer:''},
-      {t:'Who has final sign-off authority?', done:false, answer:''}
+    {title:'Go Live', items:[
+      {t:'Ensure that all live configurations are working as expected', done:false, answer:''},
+      {t:'Follow up with the merchant after going live to check if they faced any issues', done:false, answer:''},
+      {t:'Share all our support channels with the merchant during the live journey to ensure clear communication when needed', done:false, answer:''}
     ]}
   ];
 }
